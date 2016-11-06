@@ -27,10 +27,12 @@ int main(int argc, char* argv[])
     int list[] = { 4, 2, 8, 1, 3, 4, 5, 9, 0, 3 };
 
     print_list(list, list_len);
+    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
 
     insertion_sort(list, sizeof(int), list_len, compare_int);
 
     print_list(list, list_len);
+    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
 
     return 0;
 }
