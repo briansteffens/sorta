@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "insertion.h"
+
+int compare_int(void* left, void* right)
+{
+    return *(int*)left - *(int*)right;
+}
+
+void print_list(int* list, int list_len)
+{
+    for (int i = 0; i < list_len; i++)
+    {
+        if (i > 0)
+            printf(", ");
+
+        printf("%d", list[i]);
+    }
+
+    printf("\n");
+}
+
+int main(int argc, char* argv[])
+{
+    const int list_len = 10;
+    int list[] = { 4, 2, 8, 1, 3, 4, 5, 9, 0, 3 };
+
+    print_list(list, list_len);
+
+    insertion_sort(list, sizeof(int), list_len, compare_int);
+
+    print_list(list, list_len);
+
+    return 0;
+}
