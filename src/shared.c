@@ -1,5 +1,10 @@
 #include "shared.h"
 
+int compare_int(void* left, void* right)
+{
+    return *(int*)left - *(int*)right;
+}
+
 bool is_sorted(void* list, int size, int items, compare_function compare)
 {
     void* previous = list;

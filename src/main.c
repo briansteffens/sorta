@@ -3,11 +3,6 @@
 
 #include "insertion.h"
 
-int compare_int(void* left, void* right)
-{
-    return *(int*)left - *(int*)right;
-}
-
 void print_list(int* list, int list_len)
 {
     for (int i = 0; i < list_len; i++)

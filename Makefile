@@ -1,7 +1,13 @@
-all: build
+default: build
 
-build:
-	gcc -o run src/main.c src/shared.c src/insertion.c
+setup:
+	mkdir -p bin
+
+build: setup
+	gcc -o bin/run src/main.c src/shared.c src/insertion.c
+
+test: setup
+	gcc -o bin/test test/test.c src/shared.c src/insertion.c
 
 clean:
-	rm run
+	rm -rf bin
