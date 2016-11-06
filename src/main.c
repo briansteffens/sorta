@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "insertion.h"
-#include "selection.h"
+#include "sorto.h"
 
 void print_list(int* list, int list_len)
 {

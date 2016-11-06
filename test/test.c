@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-#include "../src/shared.h"
-#include "../src/insertion.h"
-#include "../src/selection.h"
+#include "../src/sorto.h"
 
 typedef void (*sort_function)(void*, int, int, compare_function);
 
