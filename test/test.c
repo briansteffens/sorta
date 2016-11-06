@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 {
     printf("test_insertion_sort: %s\n", status(test_sort(insertion_sort)));
     printf("test_selection_sort: %s\n", status(test_sort(selection_sort)));
+    printf("test_bubble_sort: %s\n", status(test_sort(bubble_sort)));
 
     return 0;
 }

@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     print_list(list, list_len);
     printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
 
-    selection_sort(list, sizeof(int), list_len, compare_int);
+    bubble_sort(list, sizeof(int), list_len, compare_int);
 
     print_list(list, list_len);
     printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));

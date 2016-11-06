@@ -81,3 +81,27 @@ void selection_sort(void* list, int size, int items, compare_function compare)
         current += size;
     }
 }
+
+void bubble_sort(void* list, int size, int items, compare_function compare)
+{
+    unsigned char temp[size];
+
+    for (int unsorted_len = items; unsorted_len > 1; unsorted_len--)
+    {
+        void* left = list;
+
+        for (int i = 0; i < unsorted_len - 1; i++)
+        {
+            void* right = left + size;
+
+            if (compare(left, right) > 0)
+            {
+                memcpy(temp, left, size);
+                memcpy(left, right, size);
+                memcpy(right, temp, size);
+            }
+
+            left += size;
+        }
+    }
+}
