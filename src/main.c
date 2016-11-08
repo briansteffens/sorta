@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
     //bubble_sort(list, sizeof(int), list_len, compare_int);
     int gaps[] = { 1 };
-    shell_sort(list, sizeof(int), list_len, compare_int, gaps, 1);
+    merge_sort(list, sizeof(int), list_len, compare_int);
 
     print_list(list, list_len);
     printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));

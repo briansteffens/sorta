@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "sorto.h"
 
@@ -166,4 +167,76 @@ void shell_sort(void* list, int size, int len, compare_function compare,
             }
         }
     }
+}
+
+void printout(void* list, int begin, int end)
+{
+    for (int i = begin; i < end; i++)
+    {
+        printf("%d ", ((int*)list)[i]);
+    }
+
+    printf("\n");
+}
+
+void merge_sort_inner(void* source, void* target, int size, int len, int begin,
+                      int end, compare_function compare)
+{
+    // Calculate mid-point to divide sublist into subsublists
+    int middle = (begin + end) / 2;
+
+    // Don't bother sorting sublists if the sets have only one item in them
+    if (end - middle > 1 || middle - begin > 1)
+    {
+        merge_sort_inner(target, source, size, len, begin, middle, compare);
+        merge_sort_inner(target, source, size, len, middle, end, compare);
+    }
+
+    int left_i = begin;
+    int right_i = middle;
+
+    for (int target_i = begin; target_i < end; target_i++)
+    {
+        void* left = NULL;
+        void* right = NULL;
+
+        if (left_i < middle)
+            left = source + left_i * size;
+
+        if (right_i < end)
+            right = source + right_i * size;
+
+        int take_i = 0;
+
+        if (!left)
+        {
+            // If no items remain in left list, automatically take from right
+            take_i = right_i++;
+        }
+        else if (!right)
+        {
+            // If no items remain in right list, automatically take from left
+            take_i = left_i++;
+        }
+        else
+        {
+            // Items remain in both lists. Of the left-most items in each list,
+            // take the smallest of the two.
+            if (compare(left, right) < 0)
+                take_i = left_i++;
+            else
+                take_i = right_i++;
+        }
+
+        memcpy(target + target_i * size, source + take_i * size, size);
+    }
+}
+
+void merge_sort(void* list, int size, int len, compare_function compare)
+{
+    int bytes = len * size;
+    unsigned char temp[bytes];
+    memcpy(temp, list, bytes);
+
+    merge_sort_inner(temp, list, size, len, 0, len, compare);
 }
