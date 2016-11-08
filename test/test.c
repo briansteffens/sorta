@@ -1,28 +1,55 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "../src/sorto.h"
 
 typedef void (*sort_function)(void*, int, int, compare_function);
 
-bool is_array_equal(void* left, void* right, int size, int len,
-                    compare_function compare)
+bool sort(sort_function sort_func, void* list, int size, int len,
+          compare_function compare, void* sorted)
 {
+    sort_func(list, size, len, compare_int);
+
     for (int i = 0; i < len; i++)
-        if (compare(left + i * size, right + i * size) != 0)
+        if (compare(list + i * size, sorted + i * size) != 0)
             return false;
 
     return true;
 }
 
-bool test_sort(sort_function sort)
+const char* status(bool result)
 {
-    const int list_len = 10;
+    return result ? "pass" : "fail";
+}
+
+bool sort_odd(sort_function sort_func)
+{
+    int list[] = { 8, 3, 4, 1, 0, 5, 7, 6, 2 };
+    int sorted[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+
+    return sort(sort_func, list, sizeof(int), 9, compare_int, sorted);
+}
+
+bool sort_even(sort_function sort_func)
+{
     int list[] = { 4, 2, 8, 1, 3, 4, 5, 9, 0, 3 };
     int sorted[] = { 0, 1, 2, 3, 3, 4, 4, 5, 8, 9 };
 
-    sort(list, sizeof(int), list_len, compare_int);
+    return sort(sort_func, list, sizeof(int), 10, compare_int, sorted);
+}
 
-    return is_array_equal(list, sorted, sizeof(int), list_len, compare_int);
+void test(const char* name, sort_function sort_func)
+{
+    const int max_len = 25;
+    char padded[max_len];
+    strncpy(padded, name, max_len);
+
+    const int name_len = strnlen(name, max_len);
+    for (int i = name_len; i < max_len; i++)
+        padded[i] = ' ';
+
+    printf("%s (odd ): %s\n", padded, status(sort_odd(sort_func)));
+    printf("%s (even): %s\n", padded, status(sort_even(sort_func)));
 }
 
 void shell_531(void* list, int size, int len, compare_function compare)
@@ -37,19 +64,14 @@ void shell_321(void* list, int size, int len, compare_function compare)
     shell_sort(list, size, len, compare, gaps, 3);
 }
 
-const char* status(bool result)
-{
-    return result ? "pass" : "fail";
-}
-
 int main(int argc, char* argv[])
 {
-    printf("test_insertion_sort: %s\n", status(test_sort(insertion_sort)));
-    printf("test_selection_sort: %s\n", status(test_sort(selection_sort)));
-    printf("test_bubble_sort: %s\n", status(test_sort(bubble_sort)));
-    printf("test_shell_sort_531: %s\n", status(test_sort(shell_531)));
-    printf("test_shell_sort_321: %s\n", status(test_sort(shell_321)));
-    printf("test_merge_sort: %s\n", status(test_sort(merge_sort)));
+    test("insertion_sort", insertion_sort);
+    test("selection_sort", selection_sort);
+    test("bubble_sort", bubble_sort);
+    test("shell_sort (gaps 531)", shell_531);
+    test("shell_sort (gaps 321)", shell_321);
+    test("merge_sort", merge_sort);
 
     return 0;
 }
