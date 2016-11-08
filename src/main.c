@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "sorto.h"
+#include "sorta.h"
 
 void print_list(int* list, int list_len)
 {

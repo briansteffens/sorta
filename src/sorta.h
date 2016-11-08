@@ -1,5 +1,5 @@
-#ifndef SORTO_H
-#define SORTO_H
+#ifndef SORTA_H
+#define SORTA_H
 
 #include <stdbool.h>
 

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "sorto.h"
+#include "sorta.h"
 
 int compare_int(void* left, void* right)
 {

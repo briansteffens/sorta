@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../src/sorto.h"
+#include "../src/sorta.h"
 
 typedef void (*sort_function)(void*, int, int, compare_function);
 
