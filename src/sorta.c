@@ -10,23 +10,6 @@ int compare_int(void* left, void* right)
     return *(int*)left - *(int*)right;
 }
 
-bool is_sorted(void* list, int size, int items, compare_function compare)
-{
-    void* previous = list;
-    void* current = list + size;
-
-    for (int i = 1; i < items; i++)
-    {
-        if (compare(previous, current) > 0)
-            return false;
-
-        previous += size;
-        current += size;
-    }
-
-    return true;
-}
-
 void insertion_sort(void* list, int size, int items, compare_function compare)
 {
     unsigned char temp[size];
@@ -167,16 +150,6 @@ void shell_sort(void* list, int size, int len, compare_function compare,
             }
         }
     }
-}
-
-void printout(void* list, int begin, int end)
-{
-    for (int i = begin; i < end; i++)
-    {
-        printf("%d ", ((int*)list)[i]);
-    }
-
-    printf("\n");
 }
 
 void merge_sort_inner(void* source, void* target, int size, int len, int begin,
