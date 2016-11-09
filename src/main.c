@@ -33,21 +33,52 @@ bool is_sorted(void* list, int size, int items, compare_function compare)
     return true;
 }
 
+void print_heap(heap* heap)
+{
+    void* current = heap->data;
+    for (int i = 0; i < heap->len; i++)
+    {
+        printf("%d ", *(int*)current);
+        current += heap->size;
+    }
+
+    printf("\n");
+}
+
 int main(int argc, char* argv[])
 {
-    const int list_len = 10;
-    //int list[] = { 4, 2, 8, 1, 3, 4, 5, 9, 0, 3 };
-    int list[] = { 8, 3, 7, 9, 6, 5, 4, 1, 2, 0 };
+    int data[32];
 
-    print_list(list, list_len);
-    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
+    heap heap;
+    heap.data = &data;
+    heap.size = sizeof(int);
+    heap.len = 0;
+    heap.compare = compare_int;
 
-    //bubble_sort(list, sizeof(int), list_len, compare_int);
-    int gaps[] = { 1 };
-    merge_sort(list, sizeof(int), list_len, compare_int);
+    int items[] = { 3, 7, 1, 9, 2, 4, 3 };
+    heap_add(&heap, &items[0]);
+    heap_add(&heap, &items[1]);
+    heap_add(&heap, &items[2]);
+    heap_add(&heap, &items[3]);
+    heap_add(&heap, &items[4]);
+    heap_add(&heap, &items[5]);
+    heap_add(&heap, &items[6]);
 
-    print_list(list, list_len);
-    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
+    heap_remove_first(&heap);
+    print_heap(&heap);
 
     return 0;
 }
