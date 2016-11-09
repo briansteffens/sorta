@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "sorta.h"
+#include "heap.h"
 
 void print_list(int* list, int list_len)
 {
