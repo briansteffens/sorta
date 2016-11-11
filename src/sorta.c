@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "sorta.h"
+#include "heap.h"
 
 int compare_int(void* left, void* right)
 {
@@ -213,4 +214,32 @@ void merge_sort(void* list, int size, int len, compare_function compare)
     memcpy(temp, list, bytes);
 
     merge_sort_inner(temp, list, size, len, 0, len, compare);
+}
+
+void heap_sort(void* list, int size, int len, compare_function compare)
+{
+    unsigned char heap_data[len * size];
+
+    heap heap;
+    heap.data = heap_data;
+    heap.len = 0;
+    heap.size = size;
+    heap.compare = compare;
+
+    // Copy input list into the heap
+    void* current = list;
+    for (int i = 0; i < len; i++)
+    {
+        heap_add(&heap, current);
+        current += size;
+    }
+
+    // Copy the data back from the heap into the input list, now sorted
+    current = list + (len - 1) * size;
+    for (int i = 0; i < len; i++)
+    {
+        memcpy(current, heap_value(&heap, 0), size);
+        heap_remove_first(&heap);
+        current -= size;
+    }
 }

@@ -99,6 +99,16 @@ void merge_sort_even()
     sort_even(merge_sort);
 }
 
+void heap_sort_odd()
+{
+    sort_odd(heap_sort);
+}
+
+void heap_sort_even()
+{
+    sort_even(heap_sort);
+}
+
 int test_sorting()
 {
     CU_pSuite suite = CU_add_suite("sorting", NULL, NULL);
@@ -120,6 +130,9 @@ int test_sorting()
 
     CU_add_test(suite, "merge_sort odd", merge_sort_odd);
     CU_add_test(suite, "merge_sort even", merge_sort_even);
+
+    CU_add_test(suite, "heap_sort odd", heap_sort_odd);
+    CU_add_test(suite, "heap_sort even", heap_sort_even);
 
     return CU_get_error();
 }
