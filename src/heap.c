@@ -79,6 +79,30 @@ void heap_add(heap* heap, void* new)
     }
 }
 
+void heap_rebalance_down(heap* heap, int start)
+{
+    while (true)
+    {
+        int child_count = heap_child_count(heap, start);
+
+        if (child_count == 0)
+            break;
+
+        void* current = heap_value(heap, start);
+
+        int child_i = heap_largest_child(heap, start);
+        void* child = heap_value(heap, child_i);
+
+        // Done shifting down when both child nodes are less than parent
+        if (heap->compare(current, child) >= 0)
+            break;
+
+        mem_swap(child, current, heap->size);
+
+        start = child_i;
+    }
+}
+
 void heap_remove_first(heap* heap)
 {
     if (heap->len < 1)
@@ -93,27 +117,6 @@ void heap_remove_first(heap* heap)
     // Overwrite first node (being removed) with the last node in the heap
     memcpy(heap->data, heap_value(heap, --heap->len), heap->size);
 
-    int current_i = 0;
-
     // Rebalance the heap downward
-    while (true)
-    {
-        int child_count = heap_child_count(heap, current_i);
-
-        if (child_count == 0)
-            break;
-
-        void* current = heap_value(heap, current_i);
-
-        int child_i = heap_largest_child(heap, current_i);
-        void* child = heap_value(heap, child_i);
-
-        // Done shifting down when both child nodes are less than parent
-        if (heap->compare(current, child) >= 0)
-            break;
-
-        mem_swap(child, current, heap->size);
-
-        current_i = child_i;
-    }
+    heap_rebalance_down(heap, 0);
 }

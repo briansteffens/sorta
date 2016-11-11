@@ -218,28 +218,36 @@ void merge_sort(void* list, int size, int len, compare_function compare)
 
 void heap_sort(void* list, int size, int len, compare_function compare)
 {
-    unsigned char heap_data[len * size];
-
+    // Heapify the input list in-place by rebalancing a sub-heap starting
+    // with only the last element and working backward until it includes the
+    // entire array.
     heap heap;
-    heap.data = heap_data;
-    heap.len = 0;
+    heap.data = list;
+    heap.len = len;
     heap.size = size;
     heap.compare = compare;
 
-    // Copy input list into the heap
-    void* current = list;
-    for (int i = 0; i < len; i++)
+    for (int i = len - 1; i--; i >= 0)
     {
-        heap_add(&heap, current);
-        current += size;
+        heap_rebalance_down(&heap, i);
     }
 
-    // Copy the data back from the heap into the input list, now sorted
-    current = list + (len - 1) * size;
-    for (int i = 0; i < len; i++)
+    // Now divide the underlying void* into two sections: the first is the
+    // heap and the second is the output array. Repeatedly remove the root
+    // (highest) node from the shrinking heap and move it into the growing
+    // output array.
+    void* output_start = list + (len - 1) * size;
+    unsigned char temp[size];
+    while (heap.len > 0)
     {
-        memcpy(current, heap_value(&heap, 0), size);
+        // Copy root item into temp storage
+        memcpy(temp, list, size);
+
+        // Remove root item and rebalance
         heap_remove_first(&heap);
-        current -= size;
+
+        // Copy old root into the output sub-array
+        memcpy(output_start, temp, size);
+        output_start -= size;
     }
 }
