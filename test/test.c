@@ -8,6 +8,7 @@
 
 #include "test_sorting.h"
 #include "test_heap.h"
+#include "test_stack.h"
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char* argv[])
 
     test_sorting();
     test_heap();
+    test_stack();
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
