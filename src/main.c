@@ -4,9 +4,13 @@
 #include "sorta.h"
 #include "heap.h"
 #include "stack.h"
+#include "vector.h"
 
 STACK_H(int, int)
 STACK_C(int, int)
+
+VECTOR_H(int, int)
+VECTOR_C(int, int)
 
 void print_list(int* list, int list_len)
 {
@@ -52,27 +56,17 @@ void print_heap(heap* heap)
 
 int main(int argc, char* argv[])
 {
-    /*
-    const int list_len = 10;
-    int list[] = { 4, 2, 8, 1, 3, 4, 5, 9, 0, 3 };
+    vector_int vec;
+    vector_int_init(&vec);
 
-    print_list(list, list_len);
-    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
+    vector_int_add(&vec, 123);
+    vector_int_add(&vec, 321);
 
-    heap_sort(list, sizeof(int), list_len, compare_int);
+    printf("%d\n", vec.len);
+    printf("%d\n", vec.items[0]);
+    printf("%d\n", vec.items[1]);
 
-    print_list(list, list_len);
-    printf("%d\n", is_sorted(list, sizeof(int), list_len, compare_int));
-    */
-    stack_int stack;
-    stack_int_init(&stack);
-    stack_int_push(&stack, 123);
-    printf("> %d\n", stack.items[0]);
-    stack_int_push(&stack, 321);
-    printf("> %d\n", stack.items[1]);
-    printf("< %d\n", stack_int_pop(&stack));
-    printf("< %d\n", stack_int_pop(&stack));
-    printf("< %d\n", stack_int_pop(&stack));
+    vector_int_free(&vec);
 
     return 0;
 }
