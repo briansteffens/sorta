@@ -60,7 +60,6 @@ void heap_add(heap* heap, void* new)
     memcpy(heap->data + current_i * heap->size, new, heap->size);
 
     // Rebalance the heap
-    unsigned char temp[heap->size];
     void* current = heap_value(heap, current_i);
 
     // Swap newly-inserted item with its parent as long as parent is smaller

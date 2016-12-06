@@ -51,8 +51,6 @@ void insertion_sort(void* list, int size, int items, compare_function compare)
 
 void selection_sort(void* list, int size, int items, compare_function compare)
 {
-    unsigned char temp[size];
-
     void* current = list;
 
     for (int i = 0; i < items; i++)
@@ -76,8 +74,6 @@ void selection_sort(void* list, int size, int items, compare_function compare)
 
 void bubble_sort(void* list, int size, int items, compare_function compare)
 {
-    unsigned char temp[size];
-
     for (int unsorted_len = items; unsorted_len > 1; unsorted_len--)
     {
         void* left = list;
@@ -227,7 +223,7 @@ void heap_sort(void* list, int size, int len, compare_function compare)
     heap.size = size;
     heap.compare = compare;
 
-    for (int i = len - 1; i--; i >= 0)
+    for (int i = len - 1; i >= 0; i--)
     {
         heap_rebalance_down(&heap, i);
     }
