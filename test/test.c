@@ -10,6 +10,7 @@
 #include "test_heap.h"
 #include "test_stack.h"
 #include "test_vector.h"
+#include "test_hashtable.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char* argv[])
     test_heap();
     test_stack();
     test_vector();
+    test_hashtable();
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
