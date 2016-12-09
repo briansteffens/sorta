@@ -76,6 +76,20 @@ void test_hashtable_auto_resize()
     dict_string_free(&dict);
 }
 
+void test_hashtable_remove()
+{
+    dict_string dict;
+    dict_string_init(&dict);
+
+    dict_string_set(&dict, "a", "1");
+    CU_ASSERT(dict_string_get(&dict, "a") != NULL);
+
+    dict_string_remove(&dict, "a");
+    CU_ASSERT(dict_string_get(&dict, "a") == NULL);
+
+    dict_string_free(&dict);
+}
+
 int compare_strings(void* left, void* right)
 {
     return strcmp(left, right);
@@ -105,6 +119,7 @@ int test_hashtable()
     CU_add_test(suite, "set_and_retrieve", test_hashtable_set_and_retrieve);
     CU_add_test(suite, "overwrite", test_hashtable_overwrite);
     CU_add_test(suite, "auto_resize", test_hashtable_auto_resize);
+    CU_add_test(suite, "remove", test_hashtable_remove);
     CU_add_test(suite, "custom_compare", test_hashtable_custom_compare);
 
     return CU_get_error();

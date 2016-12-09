@@ -16,6 +16,7 @@
         keytype key; \
         valuetype value; \
         struct name##_entry* next; \
+        struct name##_entry* previous; \
     } name##_entry; \
     \
     typedef struct \
@@ -36,6 +37,7 @@
     void name##_set(name* h, keytype key, valuetype value); \
     void name##_resize(name* source, int new_size); \
     void name##_set(name* h, keytype key, valuetype value); \
+    void name##_remove(name* h, keytype key);
 
 #define HASHTABLE_C(name, keytype, valuetype) \
     void name##_init_size(name* h, int initial_allocated) \
@@ -171,10 +173,37 @@
         if (first) \
         { \
             entry->next = first; \
+            first->previous = entry; \
+        } \
+        else \
+        { \
+            entry->next = NULL; \
+            entry->previous = NULL; \
         } \
         \
         h->buckets[index] = entry; \
         h->len++; \
+    } \
+    \
+    void name##_remove(name* h, keytype key) \
+    { \
+        unsigned index = name##_index(h, key); \
+        name##_entry* head = h->buckets[index]; \
+        name##_entry* existing = name##_find_in_bucket(h, index, key); \
+        \
+        if (existing->previous) { \
+            existing->previous->next = existing->next; \
+        } \
+        \
+        if (existing->next) { \
+            existing->next->previous = existing->previous; \
+        } \
+        \
+        if (existing == head) { \
+            h->buckets[index] = existing->next; \
+        } \
+        \
+        free(existing); \
     }
 
 #endif
