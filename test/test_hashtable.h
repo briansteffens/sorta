@@ -111,6 +111,21 @@ void test_hashtable_custom_compare()
     dict_string_free(&dict);
 }
 
+void test_hashtable_resize_ratio()
+{
+    dict_string dict;
+    dict_string_init(&dict);
+    dict.resize_ratio = 0.1;
+
+    CU_ASSERT(dict.allocated == 10);
+
+    dict_string_set(&dict, "a", "1");
+
+    CU_ASSERT(dict.allocated == 20);
+
+    dict_string_free(&dict);
+}
+
 int test_hashtable()
 {
     CU_pSuite suite = CU_add_suite("hashtable", NULL, NULL);
@@ -121,6 +136,7 @@ int test_hashtable()
     CU_add_test(suite, "auto_resize", test_hashtable_auto_resize);
     CU_add_test(suite, "remove", test_hashtable_remove);
     CU_add_test(suite, "custom_compare", test_hashtable_custom_compare);
+    CU_add_test(suite, "resize_ratio", test_hashtable_resize_ratio);
 
     return CU_get_error();
 }

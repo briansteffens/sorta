@@ -8,7 +8,7 @@
 #include "hashing.h"
 
 #define HASHTABLE_INITIAL_SIZE 10
-#define HASHTABLE_RESIZE_RATIO 0.7f
+#define HASHTABLE_DEFAULT_RESIZE_RATIO 0.7f
 
 #define HASHTABLE_H(name, keytype, valuetype) \
     typedef struct name##_entry \
@@ -26,6 +26,7 @@
         int allocated; \
         hash_function hash_function; \
         compare_function key_compare_function; \
+        float resize_ratio; \
     } name; \
     \
     void name##_init_size(name* h, int initial_allocated); \
@@ -47,6 +48,7 @@
         h->len = 0; \
         h->buckets = calloc(h->allocated, sizeof(name##_entry*)); \
         h->key_compare_function = NULL; \
+        h->resize_ratio = HASHTABLE_DEFAULT_RESIZE_RATIO; \
     } \
     \
     void name##_init(name* h) \
@@ -158,7 +160,7 @@
         } \
         \
         /* Key does not exist: grow storage if necessary */ \
-        if ((float)(h->len + 1) / h->allocated >= HASHTABLE_RESIZE_RATIO) \
+        if ((float)(h->len + 1) / h->allocated >= h->resize_ratio) \
         { \
             name##_resize(h, h->allocated * 2); \
         } \
