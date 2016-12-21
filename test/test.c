@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "CUnit/Basic.h"
+#include <BCUnit/Basic.h>
 
 #define REPORT_LEN 32
 
