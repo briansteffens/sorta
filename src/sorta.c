@@ -247,3 +247,76 @@ void heap_sort(void* list, int size, int len, compare_function compare)
         output_start -= size;
     }
 }
+
+void pivot_swap(void* list, int size, compare_function compare,
+        int pivots[], const int left, const int right)
+{
+    void* left_addr = list + pivots[left] * size;
+    void* right_addr = list + pivots[right] * size;
+
+    if (compare(left_addr, right_addr) > 0) {
+        mem_swap(left_addr, right_addr, size);
+    }
+}
+
+void quick_sort(void* list, int size, int len, compare_function compare)
+{
+    if (len <= 1)
+    {
+        return;
+    }
+
+    // Select pivot as the median of the first, middle, and last element
+    int pivots[] = {0, len / 2, len - 1};
+
+    // Sort pivot samples
+    pivot_swap(list, size, compare, pivots, 0, 2);
+    pivot_swap(list, size, compare, pivots, 0, 1);
+    pivot_swap(list, size, compare, pivots, 1, 2);
+
+    // Swap the pivot with the last element
+    void* pivot = list + (len - 1) * size;
+    mem_swap(list + pivots[1] * size, pivot, size);
+
+    void* swap_target = list;
+    void* current = list;
+
+    // Linear pass across list to identify the pivot's sorted position and
+    // move everything smaller than the pivot to the left of that final
+    // sorted position
+    while (current < pivot)
+    {
+        // If current is less than the pivot
+        if (compare(current, pivot) < 0)
+        {
+            if (current != swap_target)
+            {
+                mem_swap(current, swap_target, size);
+            }
+
+            swap_target += size;
+        }
+
+        current += size;
+    }
+
+    // Swap the pivot into its sorted position
+    if (pivot != swap_target)
+    {
+        mem_swap(pivot, swap_target, size);
+    }
+
+    // Pointer math to figure out the index of the pivot's sorted position
+    size_t pivot_index = swap_target - list;
+    if (pivot_index > 0)
+    {
+        pivot_index /= size;
+    }
+
+    // Sort the left sub-list
+    quick_sort(list, size, pivot_index, compare);
+
+    // Sort the right sub-list
+    quick_sort(list + (pivot_index + 1) * size, size, len - pivot_index - 1,
+            compare);
+}

@@ -16,5 +16,6 @@ void shell_sort(void* list, int size, int len, compare_function compare,
                 int gaps[], int gaps_len);
 void merge_sort(void* list, int size, int len, compare_function compare);
 void heap_sort(void* list, int size, int len, compare_function compare);
+void quick_sort(void* list, int size, int len, compare_function compare);
 
 #endif

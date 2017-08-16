@@ -1,19 +1,25 @@
-#include "hashtable.h"
+#include <stdio.h>
+#include "sorta.h"
 
-HASHTABLE_H(dict_string, char*, char*)
-HASHTABLE_C(dict_string, char*, char*)
 
 int main(int argc, char* argv[])
 {
-    dict_string dict;
-    dict_string_init(&dict);
+    int list[] = { 8, 3, 4, 1, 0, 5, 7, 6, 2 };
+    //int sorted[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-    dict_string_set(&dict, "somekey", "somevalue");
-    printf("%s\n", dict_string_get(&dict, "somekey"));
-    dict_string_remove(&dict, "somekey");
-    printf("%d\n", dict_string_get(&dict, "somekey") == NULL);
+    for (int i = 0; i < 9; i++)
+    {
+        printf("%d ", list[i]);
+    }
+    printf("\n");
 
-    dict_string_free(&dict);
+    quick_sort(list, sizeof(int), 9, compare_int);
+
+    for (int i = 0; i < 9; i++)
+    {
+        printf("%d ", list[i]);
+    }
+    printf("\n");
 
     return 0;
 }
